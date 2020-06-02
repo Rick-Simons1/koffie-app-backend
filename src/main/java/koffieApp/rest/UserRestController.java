@@ -55,4 +55,5 @@ public class UserRestController {
         return userService.getLoggedInUser();
     }
 
+
 }

@@ -1,8 +1,10 @@
 package koffieApp.service;
 
 import koffieApp.dao.OrderDetailDao;
+import koffieApp.dao.UserDao;
 import koffieApp.domain.Order;
 import koffieApp.domain.OrderDetail;
+import koffieApp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,13 @@ public class OrderDetailService {
     @Autowired
     OrderDetailDao dao;
 
+    @Autowired
+    UserDao userDao;
+
     public String placeOrderDetail(OrderDetail orderDetail){
+        User user = userDao.getUserById(orderDetail.getPlacedByUserId());
+        user.addCoffeeToAmount();
+        userDao.updateUser(user);
         dao.saveOrderDetail(orderDetail);
         return "coffee order placed succesfully";
 

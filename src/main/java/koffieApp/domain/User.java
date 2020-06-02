@@ -10,11 +10,32 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    @Column(unique = true)
     private String username;
     private String password;
+    private Integer amountOfOrdersDelivered;
+    private Integer amountOfCoffeesOrdered;
+    private String name;
+
+
 
     public User(){
 
+    }
+
+    public void addCoffeeToAmount(){
+        if (amountOfCoffeesOrdered == null){
+            amountOfCoffeesOrdered = 0;
+        }
+        amountOfCoffeesOrdered = amountOfCoffeesOrdered + 1;
+    }
+
+    public void addOrderToOrdersDelivered(){
+        if (amountOfOrdersDelivered == null)
+        {
+            amountOfOrdersDelivered = 0;
+        }
+        amountOfOrdersDelivered = amountOfOrdersDelivered + 1;
     }
 
     public Integer getId() {
@@ -37,5 +58,27 @@ public class User {
         this.username = username;
     }
 
+    public Integer getAmountOfCoffeesOrdered() {
+        return amountOfCoffeesOrdered;
+    }
 
+    public void setAmountOfCoffeesOrdered(Integer amountOfCoffeesOrdered) {
+        this.amountOfCoffeesOrdered = amountOfCoffeesOrdered;
+    }
+
+    public Integer getAmountOfOrdersDelivered() {
+        return amountOfOrdersDelivered;
+    }
+
+    public void setAmountOfOrdersDelivered(Integer amountOfOrdersDelivered) {
+        this.amountOfOrdersDelivered = amountOfOrdersDelivered;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

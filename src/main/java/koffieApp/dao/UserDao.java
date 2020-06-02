@@ -34,12 +34,9 @@ public class  UserDao implements UserDaoInterface<User> {
         crudRepo.save(user);
     }
 
-    @Override
-    public void updateUser(User user, String[] params) {
-        int userId = user.getId();
-        User userInDb = crudRepo.findById(userId).get();
-        userInDb = user;
-        crudRepo.save(userInDb);
+
+    public void updateUser(User user) {
+        crudRepo.save(user);
     }
 
     @Override

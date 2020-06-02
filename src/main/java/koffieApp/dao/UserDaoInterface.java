@@ -11,7 +11,7 @@ public interface UserDaoInterface<User> {
 
     void saveUser(User user);
 
-    void updateUser(User user, String[] params);
+    void updateUser(User user);
 
     void deleteUser(User user);
 
