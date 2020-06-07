@@ -6,7 +6,9 @@ import koffieApp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -14,24 +16,26 @@ public class OrderRestController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping("/getOrders")
+    @GetMapping("/orders")
     public List<Order> getOrders(){
         return orderService.getAllOrders();
     }
 
-    @PostMapping("/placeOrder")
-    public void placeOrder(@RequestParam String userId, @RequestBody List<OrderDetail> listOfOrderDetails){
+    @PostMapping("/order/create")
+    public Map<String, String> placeOrder(@RequestParam String userId, @RequestBody List<OrderDetail> listOfOrderDetails){
         int id = Integer.parseInt(userId);
-        orderService.makeOrder(id);
+        String response = orderService.makeOrder(id);
         orderService.addOrderDetailsToOrder(listOfOrderDetails);
+        return Collections.singletonMap("response", response);
+
     }
 
-    @PostMapping("/updateOrder")
+    @PostMapping("/order/update")
     public String updateOrder(@RequestBody Order order){
         return orderService.updateOrder(order);
     }
 
-    @PostMapping("/deleteOrder")
+    @PostMapping("/order/delete")
     public String deleteOrder(@RequestBody Order order){
         return orderService.deleteOrder(order);
     }

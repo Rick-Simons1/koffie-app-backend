@@ -21,13 +21,14 @@ public class OrderService {
     @Autowired
     private OrderDetailService service;
 
-    public void makeOrder(Integer id){
+    public String makeOrder(Integer id){
         User user =userDao.getUserById(id);
         user.addOrderToOrdersDelivered();
         userDao.updateUser(user);
         Order order = new Order();
         order.setDeliveredByID(id);
         dao.saveOrder(order);
+        return "success";
 
     }
 

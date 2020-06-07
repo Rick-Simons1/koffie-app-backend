@@ -17,18 +17,34 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public String loginUser(String email, String password){
-        User user = dao.getUserByUsername(email);
-        if (user == null){
-            return "wrongEmail";
+    public String updateUser(User user) {
+        User userWithSameName = dao.getUserByUsername(user.getUsername());
+        if (userWithSameName == null) {
+            dao.saveUser(user);
+            return "success";
+        } else {
+            if (user.getId() == userWithSameName.getId()) {
+                dao.saveUser(user);
+                return "success";
+            } else {
+                return "nameExists";
+            }
         }
-        String userPassword = user.getPassword();
-        if (userPassword.equals(password)){
-            return "loggedIn";
+    }
+
+    public String updateUserPassword(int id, String oldPassword, String newPassword){
+        User oldUser = dao.getUserById(id);
+
+        if (bCryptPasswordEncoder.matches(oldPassword, oldUser.getPassword())){
+            String encryptedNewPasswd = bCryptPasswordEncoder.encode(newPassword);
+            oldUser.setPassword(encryptedNewPasswd);
+            dao.saveUser(oldUser);
+            return "success";
         }
-        else{
-            return "wrongPassword";
+        else {
+            return "didntMatch";
         }
+
     }
 
     public void registerUser(User user){
@@ -62,18 +78,4 @@ public class UserService {
         User user =  dao.getUserByUsername((String) username);
         return user;
     }
-
-
-    public boolean checkUsersIfEmailExists(String email){
-        User user = dao.getUserByUsername(email);
-        if (user != null){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-
-
 }

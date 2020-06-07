@@ -15,11 +15,11 @@ public class CoffeeService {
 
     public String AddNewCoffee(Coffee coffee){
         if (CheckIfCoffeeNameExists(coffee.getCoffeeName()) == true){
-            return "coffee name already exists";
+            return "coffeeName";
         }
         else{
             dao.saveCoffee(coffee);
-            return "coffee succesfully added";
+            return "succes";
         }
     }
 
@@ -46,7 +46,7 @@ public class CoffeeService {
 
     public String deleteCoffee(Coffee coffee){
         dao.deleteCoffee(coffee);
-        return "deleted succesfully";
+        return "success";
     }
 
     public boolean CheckIfCoffeeNameExists(String coffeeName){

@@ -7,7 +7,7 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer orderDetailId;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
     private Integer coffeeId;

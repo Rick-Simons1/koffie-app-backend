@@ -25,18 +25,18 @@ public class OrderDetailService {
         user.addCoffeeToAmount();
         userDao.updateUser(user);
         dao.saveOrderDetail(orderDetail);
-        return "coffee order placed succesfully";
+        return "succes";
 
     }
 
     public String deleteOrderDetail(OrderDetail orderDetail){
         dao.deleteOrderDetail(orderDetail);
-        return "coffee order deleted succesfully";
+        return "succes";
     }
 
     public String updateOrderDetail(OrderDetail orderDetail){
         dao.updateOrderDetail(orderDetail);
-        return "coffee order updated succesfully";
+        return "succes";
     }
 
     public List<OrderDetail> getAllOrderDetailsWithoutOrder(){

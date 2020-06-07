@@ -23,23 +23,25 @@ public class CoffeeRestController {
         return coffeeService.getAllCoffees();
     }
 
-    @PostMapping("/Coffees")
-    void addCoffee(@RequestBody Coffee coffee){
-        coffeeService.AddNewCoffee(coffee);
+    @PostMapping(value = "/Coffee/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> addCoffee(@RequestBody Coffee coffee){
+        String response = coffeeService.AddNewCoffee(coffee);
+        return Collections.singletonMap("response", response);
     }
 
-    @PostMapping(value = "/editCoffee", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/coffee/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> editCoffee(@RequestBody Coffee coffee){
         String response = coffeeService.UpdateExistingCoffee(coffee);
         return  Collections.singletonMap("response", response);
     }
 
-    @PostMapping("/deleteCoffee")
-    public void deleteCoffee(@RequestBody Coffee coffee){
-        coffeeService.deleteCoffee(coffee);
+    @PostMapping(value = "/coffee/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String,String> deleteCoffee(@RequestBody Coffee coffee){
+        String response = coffeeService.deleteCoffee(coffee);
+        return Collections.singletonMap("response", response);
     }
 
-    @GetMapping("/getCoffeeById")
+    @GetMapping("/coffee/id")
     public Coffee getCoffeeById(@RequestParam Integer coffeeId){
         return coffeeService.getCoffeeById(coffeeId);
     }
