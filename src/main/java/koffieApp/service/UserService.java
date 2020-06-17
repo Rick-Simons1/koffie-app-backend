@@ -2,6 +2,7 @@ package koffieApp.service;
 
 import koffieApp.dao.UserDao;
 import koffieApp.domain.User;
+import koffieApp.repository.UserQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +13,8 @@ public class UserService {
     @Autowired
     private UserDao dao;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    UserQueryRepository userQueryRepository;
 
     public UserService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -47,29 +50,15 @@ public class UserService {
 
     }
 
-    public void registerUser(User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        dao.saveUser(user);
-        /*if (user.getEmail() != null && user.getName() != null && user.getPassword() != null && user.getDeskLocation() != null){
-            if (checkUsersIfEmailExists(user.getEmail()) == true){
-                return "emailExists";
-            }
-            else if (checkUsersIfNameExists(user.getName()) == true){
-                return "nameExists";
-            }
-            else if (checkUsersIfDesklocationExists(user.getDeskLocation()) == true){
-                return "deskExists";
-            }
-            else{
-                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-                dao.saveUser(user);
-                return "userAdded";
-            }
+    public String registerUser(User user){
+        if (userQueryRepository.findUserByUsername(user.getUsername()) == null){
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            dao.saveUser(user);
+            return "success";
         }
         else{
-            return "fillAllFields";
-        }*/
-
+            return "nameExists";
+        }
 
     }
 

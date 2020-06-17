@@ -4,7 +4,9 @@ import koffieApp.domain.Coffee;
 import koffieApp.service.CoffeeService;
 import org.hibernate.mapping.Any;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -23,22 +25,39 @@ public class CoffeeRestController {
         return coffeeService.getAllCoffees();
     }
 
-    @PostMapping(value = "/Coffee/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> addCoffee(@RequestBody Coffee coffee){
+    @PostMapping(value = "/Coffees", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addCoffee(@RequestBody Coffee coffee){
         String response = coffeeService.AddNewCoffee(coffee);
-        return Collections.singletonMap("response", response);
+        if (response == "coffeeName"){
+            return new ResponseEntity<>(
+                    Collections.singletonMap("response", response), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(
+                    Collections.singletonMap("response", response), HttpStatus.OK);
+        }
+
     }
 
-    @PostMapping(value = "/coffee/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> editCoffee(@RequestBody Coffee coffee){
+    @PostMapping(value = "/coffee", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity editCoffee(@RequestBody Coffee coffee){
         String response = coffeeService.UpdateExistingCoffee(coffee);
-        return  Collections.singletonMap("response", response);
+        if (response == "nameExists"){
+            return new ResponseEntity<>(
+                    Collections.singletonMap("response", response), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(
+                    Collections.singletonMap("response", response), HttpStatus.OK);
+        }
     }
 
-    @PostMapping(value = "/coffee/delete", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String,String> deleteCoffee(@RequestBody Coffee coffee){
+    @GetMapping(value = "/coffee", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteCoffee(@RequestParam String coffeeId){
+        Coffee coffee = coffeeService.getCoffeeById(Integer.parseInt(coffeeId));
         String response = coffeeService.deleteCoffee(coffee);
-        return Collections.singletonMap("response", response);
+        return new ResponseEntity<>(
+                Collections.singletonMap("response", response), HttpStatus.OK);
     }
 
     @GetMapping("/coffee/id")
